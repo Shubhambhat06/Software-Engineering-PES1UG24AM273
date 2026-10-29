@@ -1,113 +1,217 @@
-Software Engineering Repo
+# Software Engineering Lab Portfolio
 
-Shubham D Bhat
-
-PES1UG24AM273
-
-Section E
-
-SE LAB 4 Vibe-coding session claude-ai chat -
-https://claude.ai/share/0006f7e8-9882-4fd0-b856-671e384993b7
-
-topic for lab 4 - https://github.com/SETAPESU26/34_pacman
-
-SE LAB 5 Static Code Analysis - Pylint, Bandit, Flake8
-
-topic for lab 5 - https://github.com/SETAPESU26/L5_34_online_exam
-
-my fork (work + commits) - https://github.com/Shubhambhat06/L5_34_online_exam
+**Name:** Shubham D Bhat  
+**SRN:** PES1UG24AM273  
+**Section:** E  
+**Campus:** PES University, Ring Road Campus, Bengaluru
 
 ---
 
-# Lab 4 - VibeCoding: Pac-Man Repair Lab
+## Lab 4 — Vibe Coding: Pac-Man Repair Lab
 
-Repo: `SETAPESU26/34_pacman` (forked/cloned; **no PR raised to the main repo**).
-LLM used: Claude (Anthropic).
+**Original Repository:** https://github.com/SETAPESU26/34_pacman  
+**LLM Used:** Claude (Anthropic)  
+**Claude Chat History:** https://claude.ai/share/0006f7e8-9882-4fd0-b856-671e384993b7
 
-## Deliverables
+The objective of this lab was to use AI-assisted coding to identify and repair issues in a Pac-Man game while validating the changes through regression testing.
 
-| Required | File |
+### Deliverables
+
+| Requirement | File |
 |---|---|
-| a. Videos (before and after) | `videos/before.mp4`, `videos/after.mp4` (10 s each) |
-| b. Updated code | `code/game.py` (identical to `game.py` at the repo root) |
-| c. Chat history (doc/pdf) | `Chat_History_Lab4_Pacman.pdf` |
+| Before and after videos | `videos/before.mp4`, `videos/after.mp4` |
+| Updated game code | `code/game.py` |
+| Chat history | `Chat_History_Lab4_Pacman.pdf` |
+| Regression tests | `tests/test_game.py` |
+| Video recording utility | `tools/record.py` |
 
-Extras: `tests/test_game.py` (24 regression tests), `tools/record.py` (headless video recorder).
+### Changes Implemented
 
-## What was done (one commit per task)
-
-| Task | Change |
+| Task | Description |
 |---|---|
-| 1. Fix power-pellet bug | `eat()` compared against `"O"`; the maze uses `"o"`. One-character fix. Frightened mode now triggers and ghosts reverse. |
-| 2. `ghost_color(name, mode)` | Distinct frightened tint per ghost (Blinky violet, Pinky periwinkle, Inky teal, Clyde lime). Returns `None` for normal/eaten. `draw()` keeps the white "ending" flash. |
-| 3. `on_pellet_eaten(score, pellets_left)` | Bonus cherry (+100) spawns at 100 and 40 pellets left, blinks, vanishes after 9 s. Gold HUD flash on fruit pickup and on the final pellet. Uses an event queue because the function has no access to `Game`. |
-| 4. `bonus_life_threshold()` | Returns `1000` - an extra life every 1000 points. (README's `10000` is unreachable: the maze holds only 1460 pellet points.) |
+| Power-pellet bug | Corrected the pellet character comparison from `"O"` to `"o"`, enabling frightened mode and ghost reversal. |
+| Ghost colours | Implemented `ghost_color(name, mode)` to provide distinct frightened-mode colours for each ghost while preserving normal and ending behaviour. |
+| Bonus fruit | Implemented `on_pellet_eaten(score, pellets_left)` to trigger bonus cherries at 100 and 40 pellets remaining, with blinking, timed disappearance, and HUD effects. |
+| Bonus life | Implemented `bonus_life_threshold()` to return `1000`, awarding an extra life for every 1,000 points. |
 
-## Run
+### Testing and Execution
+
+Install Pygame and run the game:
 
 ```bash
 pip install pygame
-python game.py            # arrow keys to move, R to reset
-python Lab-4/tests/test_game.py   # 24 tests, all pass
+python game.py
 ```
 
-## About the videos
-
-The videos are **scripted autoplay captures of the real `game.py`** (rendered headlessly frame-by-frame by
-`tools/record.py`), not a manual screen recording. The same autopilot and random seed are used for both clips, at
-1.5x game speed so that every feature fits in 10 seconds. A caption strip under the game shows the live
-`frightened` state, speed and game time. To record a hand-played clip instead, run `python game.py` and use any
-screen recorder.
-
-Regenerate:
+Run the regression tests:
 
 ```bash
-python Lab-4/tools/record.py --game <original_game.py> --out before.mp4 --title "BEFORE" --speed 1.5 --seed 6
-python Lab-4/tools/record.py --game game.py            --out after.mp4  --title "AFTER"  --speed 1.5 --seed 6
+python Lab-4/tests/test_game.py
 ```
+
+The test suite contains 24 regression tests.
+
+### Video Demonstration
+
+The before-and-after videos are scripted, headless captures of the game rendered frame by frame. Both clips use the same autopilot and random seed to make the comparison consistent.
+
+**Note:** The work was maintained in a fork/cloned copy; no pull request was raised to the original repository.
 
 ---
 
-# Lab 5 - Static Code Analysis (Pylint, Bandit, Flake8)
+## Lab 5 — Static Code Analysis
 
-Repo: `SETAPESU26/L5_34_online_exam` (forked to `Shubhambhat06/L5_34_online_exam`; work pushed to the fork, **no PR raised to the main repo**).
-File analysed: `online_exam.py` (online exam marker). Tools: Pylint 4.1.3, Bandit 1.9.4, Flake8 7.4.1 (Python 3.12).
+**Original Repository:** https://github.com/SETAPESU26/L5_34_online_exam  
+**My Fork:** https://github.com/Shubhambhat06/L5_34_online_exam
 
-## Deliverables
+This lab focused on identifying and fixing security vulnerabilities, code-quality problems, and style violations using Pylint, Bandit, and Flake8.
 
-| Required | File |
+**File analysed:** `online_exam.py`
+
+**Tools used:** Pylint 4.1.3, Bandit 1.9.4, and Flake8 7.4.1.
+
+### Deliverables
+
+| Requirement | File or Location |
 |---|---|
-| 1. Three commits (one per tool) | `fix(bandit)`, `fix(pylint)`, `style(flake8)` in the fork's history |
-| 2. Reports (before and after) | `Lab-5/reports/before/` and `Lab-5/reports/after/` (`pylint_report.txt`, `bandit_report.txt`, `flake8_report.txt`) |
-| 3. Updated Python source | `Lab-5/online_exam.py` |
-| 4. Report | `Lab-5/Lab5_Report.pdf` (issue table, results, verification, reflection) |
+| Three tool-specific commits | Fork's Git history |
+| Before-analysis reports | `Lab-5/reports/before/` |
+| After-analysis reports | `Lab-5/reports/after/` |
+| Updated Python source | `Lab-5/online_exam.py` |
+| Lab report | `Lab-5/Lab5_Report.pdf` |
+| Issue documentation | `Lab-5/issues.md` |
+| Reflection | `Lab-5/reflection.md` |
 
-Extras: `Lab-5/issues.md` (issue table), `Lab-5/reflection.md` (reflection answers), plus a fourth `docs` commit adding them.
+The reports directory contains the Pylint, Bandit, and Flake8 reports before and after the fixes.
 
-## Results
+### Results
 
 | Tool | Before | After |
 |---|---|---|
-| Pylint | 5.65/10 (20 messages) | **10.00/10** |
-| Bandit | 4 issues (2 High, 2 Low) | **0 issues** |
+| Pylint | 5.65/10; 20 messages | **10.00/10** |
+| Bandit | 4 issues: 2 High, 2 Low | **0 issues** |
 | Flake8 | 4 issues | **0 issues** |
 
-Program output is identical before and after (apart from the random bonus question). The `after/flake8_report.txt` file is empty on purpose: Flake8 prints nothing when there are no issues.
+### Changes Implemented
 
-## What was done (one commit per tool)
+**1. Bandit — Security fixes**
 
-| Commit | Change |
-|---|---|
-| 1. Bandit | `os.system("ssh " + host)` (command injection, High) replaced by `subprocess.run` with an argument list, no shell and a validated host name. MD5 (High) replaced by SHA-256. Hard-coded password moved to an environment variable. `random.choice` replaced by `secrets.choice`. Two informational subprocess notes (B404, B603) suppressed with justified `# nosec`. |
-| 2. Pylint | snake_case names, docstrings, `enumerate`, removed `elif` after `return`, fixed the mutable default argument `penalties={}`. Also fixed two bugs no tool reports: `topper()` crashed on empty results, and `main()` ran on import. |
-| 3. Flake8 | Blank lines (E302), operator and comment spacing (E225, E261), long lines (E501), continuation indent (E128). |
+- Replaced shell-based SSH command construction with `subprocess.run` using an argument list and host validation.
+- Replaced MD5 with SHA-256.
+- Moved the hard-coded password to an environment variable.
+- Replaced `random.choice` with `secrets.choice`.
+- Documented justified suppressions for informational subprocess findings.
 
-## Run
+**2. Pylint — Code quality and correctness**
+
+- Improved naming conventions and added docstrings.
+- Used `enumerate` where appropriate.
+- Fixed control-flow and mutable-default-argument issues.
+- Fixed `topper()` crashing on empty results.
+- Prevented `main()` from running automatically when the module is imported.
+
+**3. Flake8 — Style corrections**
+
+- Fixed blank-line and spacing violations.
+- Corrected comment formatting and continuation indentation.
+- Resolved line-length violations.
+
+The program's output was kept consistent before and after the changes, apart from the randomly selected bonus question.
+
+### Verification
+
+Install the tools:
 
 ```bash
 pip install pylint bandit flake8
-python Lab-5/online_exam.py
-python -m pylint Lab-5/online_exam.py          # 10.00/10
-python -m bandit -r Lab-5/online_exam.py       # No issues identified
-python -m flake8 Lab-5/online_exam.py          # no output
 ```
+
+Run the program and analysis tools:
+
+```bash
+python Lab-5/online_exam.py
+python -m pylint Lab-5/online_exam.py
+python -m bandit -r Lab-5/online_exam.py
+python -m flake8 Lab-5/online_exam.py
+```
+
+**Note:** The work and commits are available in my fork. No pull request was raised to the original repository.
+
+---
+
+## Lab 6 — Tennis Scoring: Code Coverage
+
+**Original Repository:** https://github.com/SETAPESU26/L6_L7_34_tennis_scoring  
+**My Fork:** https://github.com/Shubhambhat06/L6_L7_34_tennis_scoring
+
+This lab focused on measuring test coverage for the tennis-scoring module using line coverage and branch coverage techniques.
+
+### Deliverables
+
+| Requirement | File |
+|---|---|
+| Line coverage tests | `lab6/LAB_6_CodeCoverageTest_tennis_scoring.py` |
+| Branch coverage tests | `lab6/LAB6_BranchCoverageTest_tennis_scoring.py` |
+| Line coverage screenshot | `lab6/LAB_6code_coverage_screenshot.png` |
+| Branch coverage screenshot | `lab6/LAB_6branch_coverage_screenshot.png` |
+| Source module | `lab6/tennis_scoring.py` |
+
+### Test Coverage Results
+
+| Coverage Type | Result |
+|---|---:|
+| Line (Code) Coverage | **97%** |
+| Branch Coverage | **100%** |
+
+### Test Cases Covered
+
+- Normal tennis scoring and game-winning conditions.
+- Deuce and advantage scenarios.
+- Invalid negative-point inputs.
+- Set-winning conditions, including two-game leads and tiebreak scores.
+- Match status, including wins, deciding stages, and matches in progress.
+- Boundary conditions and both outcomes of decision branches.
+
+### How to Run
+
+Run the commands from the `lab6` directory.
+
+**Line coverage:**
+
+```bash
+coverage run --source=. -m pytest LAB_6_CodeCoverageTest_tennis_scoring.py
+coverage report -m
+```
+
+**Branch coverage:**
+
+```bash
+coverage run --branch --source=. -m pytest LAB6_BranchCoverageTest_tennis_scoring.py
+coverage report -m
+```
+
+### Screenshots
+
+**Line Coverage Results**
+
+![Line Coverage Results](lab6/LAB_6code_coverage_screenshot.png)
+
+**Branch Coverage Results**
+
+![Branch Coverage Results](lab6/LAB_6branch_coverage_screenshot.png)
+
+### Conclusion
+
+The tests exercise the main tennis-scoring logic, including boundary conditions and decision branches. The reported results are **97% line coverage** and **100% branch coverage**.
+
+---
+
+## Summary
+
+| Lab | Topic | Main Tools / Technologies |
+|---|---|---|
+| Lab 4 | Vibe Coding and Pac-Man Repair | Claude, Python, Pygame, regression testing |
+| Lab 5 | Static Code Analysis | Pylint, Bandit, Flake8 |
+| Lab 6 | Code Coverage | Python, pytest, Coverage.py |
+
+All three labs focus on practical software engineering skills, including AI-assisted development, security and code-quality analysis, and systematic testing.
