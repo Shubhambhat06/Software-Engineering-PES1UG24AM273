@@ -14,7 +14,7 @@ The deliverables and documentation for **Labs 1, 2, and 3** have been uploaded a
 - **Lab 2:** PDF submission uploaded.
 - **Lab 3:** PDF submission uploaded.
 
-The following sections document Labs 4, 5, and 6, including their source repositories, implementations, deliverables, and testing results.
+The following sections document Labs 4, 5, 6, and 7, including their source repositories, implementations, deliverables, and testing results.
 
 ---
 
@@ -223,6 +223,75 @@ The tests exercise the main tennis-scoring logic, including boundary conditions 
 
 ---
 
+## Lab 7 — Tennis Scoring: Fuzz Testing
+
+**Original Repository:** https://github.com/SETAPESU26/L6_L7_34_tennis_scoring  
+**My Fork:** https://github.com/Shubhambhat06/L6_L7_34_tennis_scoring  
+**Tools used:** Python, Hypothesis, pytest
+
+This lab focused on fuzz testing (property-based testing) the tennis-scoring module with Hypothesis to find input-validation bugs, then hardening the code so that no input can make a function crash.
+
+**Files under test:** `parse_score`, `game_lead` and `set_spread` in `tennis_scoring.py`.
+
+**Note:** The handout refers to `processor.py` / `test_processor.py`; in this repository the equivalent files are `tennis_scoring.py` / `test_tennis_scoring.py`. The work is in my fork. No pull request was raised to the original repository.
+
+### Deliverables
+
+| Requirement | File |
+|---|---|
+| PDF with screenshots of every step | `lab7/Lab7_Fuzzing_Report.pdf` |
+| Fixed application script | `lab7/tennis_scoring.py` |
+| Updated Hypothesis tests | `lab7/test_tennis_scoring.py` |
+| Lab README | `lab7/README.md` |
+
+### Results
+
+| Code Version | Test Result |
+|---|---|
+| Original (buggy) code | **10 failed, 4 passed** |
+| Fixed code | **14 passed** (also passes with 5,000 generated examples per test) |
+
+### Bugs Found by Fuzzing
+
+| Function | Minimal failing input | Exception |
+|---|---|---|
+| `parse_score` | `None`, `''`, `'-'` | `AttributeError`, `ValueError` |
+| `game_lead` | `None`, `''`, `'-'`, `'50-30'` | `AttributeError`, `ValueError`, `KeyError` |
+| `set_spread` | `None`, `''` (also `'1,,3'`, `'6,4,'`) | `AttributeError`, `ValueError` |
+| All three | `0`, `b''` (non-string types) | `AttributeError`, `TypeError` |
+
+The original `int()` conversion also silently accepted invalid scores such as `'1_0'` (read as 10), `'+3'` and non-ASCII digits.
+
+### Changes Implemented
+
+- **Type check:** non-string input returns `None` instead of raising.
+- **Separator check:** `parse_score` and `game_lead` require exactly one `-`.
+- **Strict number parsing:** only ASCII digits are accepted before calling `int()`.
+- **Tennis-point whitelist:** `game_lead` accepts only `0`, `15`, `30` and `40`.
+- **Whole-CSV validation:** `set_spread` validates every element before using `max()` and `min()`.
+- **Input length cap:** inputs over 1,000 characters are rejected.
+- **Friendlier `main()`:** prints a clear message for invalid input and handles `EOFError` / `KeyboardInterrupt`.
+
+### Test Suite
+
+The suite contains 14 tests: the 3 required no-crash tests, plus correctness, output-shape, malformed-type and regression tests.
+
+### How to Run
+
+Run the commands from the `lab7` directory.
+
+```bash
+pip install hypothesis pytest
+python tennis_scoring.py
+pytest test_tennis_scoring.py
+```
+
+### Conclusion
+
+Fuzzing exposed crashes in all three functions that ordinary inputs never trigger. After adding validation, every generated input is either processed correctly or rejected with `None`, and all 14 tests pass.
+
+---
+
 ## Overall Summary
 
 | Lab | Topic | Main Tools / Technologies |
@@ -231,5 +300,6 @@ The tests exercise the main tennis-scoring logic, including boundary conditions 
 | Lab 4 | Vibe Coding and Pac-Man Repair | Claude, Python, Pygame, regression testing |
 | Lab 5 | Static Code Analysis | Pylint, Bandit, Flake8 |
 | Lab 6 | Code Coverage | Python, pytest, Coverage.py |
+| Lab 7 | Fuzz Testing | Python, pytest, Hypothesis |
 
-This portfolio documents the progression from the initial PDF-based lab submissions to practical software engineering work involving AI-assisted development, security and code-quality analysis, and systematic testing.
+This portfolio documents the progression from the initial PDF-based lab submissions to practical software engineering work involving AI-assisted development, security and code-quality analysis, systematic testing, and fuzz testing.
